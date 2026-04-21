@@ -1,6 +1,6 @@
-// Project Title
-// Your Name
-// Date
+// Major Project
+// Pinakin Gaur
+// April 21, 2026
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
