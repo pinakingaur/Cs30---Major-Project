@@ -3,24 +3,19 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
 
 ## Needs To Have List:
     - A home screen holding all the mini games
-    
+    - Make games true to their actual gameplay
     - 8 Ball Pool Improvements
         - Add ball colors & numbers
         - Add ball rolling physics
-        - Add all the rules
-    
     - Othello Improvements
         - Make actual discs
         - A disc color counter
-
     - Badminton Game
         - Make multiple stadiums
-
     - Working Out Game
         - Make a squat, deadlift and bench workout.
         - Add visual muscle mass increase
         - Improve your lifts overtime
-    
     - Add background music
     
 ## Nice to Have List:
@@ -29,17 +24,15 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
         - make it online
         - make visible sticks rather than a line
         - make some sort of 3D table illusion rather than a picture
-
     - Othello
         - make an ai opponent
         - make it online
         - make 3D board
-    
+
     - Badminton
         - make an ai opponent
         - make it online
         - add a doubles game
-    
     - Working Out
         - Add factors like fatique and hydration affecting your lifts.
 
