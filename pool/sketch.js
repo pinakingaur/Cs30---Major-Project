@@ -31,7 +31,7 @@ class HitBox {
       isStatic: true,
     });
     Matter.World.add(matter.world, this.body);
-}
+  }
 }
 
 class Ball {
@@ -165,7 +165,7 @@ function preload() {
 function keyPressed() {
   if (key === "d") {
     debugMode =! debugMode;
-}
+  }
 }
 
 function drawDebug() {
