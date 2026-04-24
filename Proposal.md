@@ -14,7 +14,6 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
     - Make multiple stadiums
 - Working Out Game
     - Make a squat, deadlift and bench workout.
-    - Add visual muscle mass increase
     - Improve your lifts overtime
 - Add background music
     
@@ -35,5 +34,6 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
     - add a doubles game
 - Working Out
     - Add factors like fatique and hydration affecting your lifts.
+    - Add visual muscle mass increase
 
         
