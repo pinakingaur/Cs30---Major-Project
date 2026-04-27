@@ -11,11 +11,12 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
     - Make actual discs
     - A disc color counter
 - Badminton Game
-    - Make multiple stadiums
-- Working Out Game
-    - Make a squat, deadlift and bench workout.
-    - Improve your lifts overtime
+    - add two sprites
+    - add birdie physics
+    - add court and court lines
+    - add audience 
 - Add background music
+- Add sound effects
     
 ## Nice to Have List:
 - 8 Ball Pool
@@ -32,8 +33,9 @@ Multiple mini games, with a home screen. Includes improved version of the old ga
     - make an ai opponent
     - make it online
     - add a doubles game
-- Working Out
-    - Add factors like fatique and hydration affecting your lifts.
-    - Add visual muscle mass increase
+    - make multiple stadiums
+- Working Out Game
+    - Make a squat, deadlift and bench workout.
+    - Improve your lifts overtime
 
         
