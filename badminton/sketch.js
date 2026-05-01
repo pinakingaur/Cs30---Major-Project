@@ -8,8 +8,9 @@
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let player = new Sprite(200, 200, 50, 50); // x, y, width, height
-  player.color = 'red';
+  let sprite = new Sprite();
+  sprite.width = 50;
+  sprite.height = 50;
 }
 
 function draw() {
