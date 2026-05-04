@@ -5,10 +5,10 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-
+let sprite;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  let sprite = new Sprite();
+  sprite = new Sprite();
   sprite.width = 50;
   sprite.height = 50;
 }
