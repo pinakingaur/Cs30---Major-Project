@@ -243,7 +243,7 @@ function setup() {
   rackBalls();
 
   imageMode(CENTER);
-  Matter.Runner.run(matter); 
+  Matter.Runner.run(matter);
 }
 
 function draw() {
