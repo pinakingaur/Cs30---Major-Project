@@ -79,34 +79,103 @@ class Ball {
   }
 }
 
-function rackBalls() {
-  // draws the cue ball
-  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue");
-  balls.push(cueBall);
 
-  // draws the pool balls in a triangle
-  const footSpotX = 290;
-  const spacing = 2 * ballRadius + 3;
-  const xOffset = sqrt(3) * ballRadius;
-  let rowLength = 1;
-  let i = 0;
-  for (let row = 0; row < 5; row++) {
-    for (let col = 0; col < rowLength; col++) {
-      let xPos = footSpotX - row * xOffset;
-      let yPos = table.centerY() - (rowLength - 1) * ballRadius + col * spacing;
-      balls.push(new Ball(xPos, yPos));
-      i++;
-    }
-    rowLength++;
+
+//Width between canvas and the table
+
+function preload() {
+  poolImg = loadImage("table.png");
+}
+
+function keyPressed() {
+  if (key === "d") {
+    debugMode =! debugMode;
   }
 }
 
-//Width between canvas and the table
+
+
+function mousePressed() {
+  if (!cueBall) return;
+  let nearCueBall =
+      dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
+  if (nearCueBall) {
+    dragStart = createVector(mouseX, mouseY);
+  }
+}
+
+function mouseReleased() {
+  if (!dragStart) return;
+  let force = p5.Vector.sub(dragStart, createVector(mouseX, mouseY));
+  force.mult(0.1);
+  Matter.Body.setVelocity(cueBall.body, force);
+  dragStart = null;
+}
+
+
+function drawCueLine() {
+  stroke("pink");
+  strokeWeight(4);
+  line(cueBall.body.position.x, cueBall.body.position.y, mouseX, mouseY);
+  noStroke(0);
+}
+
+function resetCueBall() {
+  cueBall.setPosition(cueBallOrigin, table.centerY());
+  cueBall.setVelocity(0, 0);
+}
+
+function limitBallSpeed(ball, maxSpeed = 30) {
+  let vel = ball.velocity();
+  let speed = vel.mag();
+
+  if (speed > maxSpeed) {
+    vel.normalize().mult(maxSpeed);
+    ball.setVelocity(vel.x, vel.y);
+  }
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  matter = Matter.Engine.create();
+  matter.world.gravity.y = 0;
+
+  table.boundariesLine();
+  table.pocketHoles();
+  rackBalls();
+
+  imageMode(CENTER);
+  Matter.Runner.run(matter);
+
+}
+
+function draw() {
+  Matter.Engine.update(matter);
+  background(0);
+  translate(-width / 2, -height / 2);
+  image(poolImg, width/2, height/2, poolImg.width*4, poolImg.height*4);  
+
+  // Draw the balls
+  balls.forEach((ball) => {
+    limitBallSpeed(ball);
+    ball.display();
+  });
+
+  table.checkPockets();
+
+  // Draw the cue
+  if (dragStart) {
+    drawCueLine();
+  }
+
+  drawDebug();
+}
+
 const table = {
-  left: 35, 
+  left: 200, 
   top: 300,
-  right: 1121,
-  bottom: 861,
+  right: 1196,
+  bottom: 800,
   boundaries: [],
   pockets: [],
 
@@ -158,15 +227,28 @@ const table = {
   },
 };
 
-function preload() {
-  poolImg = loadImage("table.png");
-}
+function rackBalls() {
+  // draws the cue ball
+  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue");
+  balls.push(cueBall);
 
-function keyPressed() {
-  if (key === "d") {
-    debugMode =! debugMode;
+  // draws the pool balls in a triangle
+  const footSpotX = 700;
+  const spacing = 2 * ballRadius + 3;
+  const xOffset = sqrt(3) * ballRadius;
+  let rowLength = 1;
+  let i = 0;
+  for (let row = 0; row < 5; row++) {
+    for (let col = 0; col < rowLength; col++) {
+      let xPos = footSpotX - row * xOffset;
+      let yPos = table.centerY() - (rowLength - 1) * ballRadius + col * spacing;
+      balls.push(new Ball(xPos, yPos));
+      i++;
+    }
+    rowLength++;
   }
 }
+
 
 function drawDebug() {
   // makes a visible table border
@@ -191,79 +273,4 @@ function drawDebug() {
     ellipse(pocket.x, pocket.y, r, r);
   });
   pop();
-}
-
-function mousePressed() {
-  if (!cueBall) return;
-  let nearCueBall =
-      dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
-  if (nearCueBall) {
-    dragStart = createVector(mouseX, mouseY);
-  }
-}
-
-function mouseReleased() {
-  if (!dragStart) return;
-  let force = p5.Vector.sub(dragStart, createVector(mouseX, mouseY));
-  force.mult(0.1);
-  Matter.Body.setVelocity(cueBall.body, force);
-  dragStart = null;
-}
-
-
-function drawCueLine() {
-  stroke("pink");
-  strokeWeight(4);
-  line(cueBall.body.position.x, cueBall.body.position.y, mouseX, mouseY);
-  noStroke(0);
-}
-
-function resetCueBall() {
-  cueBall.setPosition(cueBallOrigin, table.centerY());
-  cueBall.setVelocity(0, 0);
-}
-
-function limitBallSpeed(ball, maxSpeed = 30) {
-  let vel = ball.velocity();
-  let speed = vel.mag();
-
-  if (speed > maxSpeed) {
-    vel.normalize().mult(maxSpeed);
-    ball.setVelocity(vel.x, vel.y);
-  }
-}
-
-function setup() {
-  createCanvas(1200, 1200, WEBGL);
-  matter = Matter.Engine.create();
-  matter.world.gravity.y = 0;
-
-  table.boundariesLine();
-  table.pocketHoles();
-  rackBalls();
-
-  imageMode(CENTER);
-  Matter.Runner.run(matter);
-}
-
-function draw() {
-  Matter.Engine.update(matter);
-  background(255);
-  translate(-width / 2, -height / 2);
-  image(poolImg, width/2, height/2, poolImg.width*4, poolImg.height*4);  
-
-  // Draw the balls
-  balls.forEach((ball) => {
-    limitBallSpeed(ball);
-    ball.display();
-  });
-
-  table.checkPockets();
-
-  // Draw the cue
-  if (dragStart) {
-    drawCueLine();
-  }
-
-  drawDebug();
 }

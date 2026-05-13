@@ -8,20 +8,22 @@
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
 }
 
 function draw() {
- spamCircles(); 
+  spamCircles(); 
 }
 
 function spamCircles() {
   if(mouseIsPressed) {
+    let r = random(255);
+    let g = random(255);
+    let b = random(255);
+    fill(r, g, b);
     circle(mouseX, mouseY, 25); 
   }
-  else if(key === "c") {
-    background(220);
-  }
 }
+
+
 
 
