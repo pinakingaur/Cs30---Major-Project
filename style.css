@@ -6,3 +6,11 @@ html, body {
 canvas {
   display: block;
 }
+
+ul.horizontal {
+  list-style: none;
+  padding: 5;
+  display: flex;
+  gap: 800px;
+}
+    
