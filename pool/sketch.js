@@ -169,13 +169,14 @@ function draw() {
   }
 
   drawDebug();
+  console.log(mouseX, mouseY);
 }
 
 const table = {
-  left: 200, 
-  top: 300,
-  right: 1196,
-  bottom: 800,
+  left: 397, 
+  top: 170,
+  right: 1476,
+  bottom: 732,
   boundaries: [],
   pockets: [],
 
@@ -200,12 +201,12 @@ const table = {
   // makes the pocket holes
   pocketHoles: function() {
     this.pockets = [
-      createVector(59, 322),  //top - left pocket
-      createVector(591, 322), //top - middle pocket
-      createVector(1133, 322), //top - right pocket
-      createVector(1133, 877), //bottom - left pocket
-      createVector(595, 890), //bottom - middle pocket  
-      createVector(59, 877), //bottom - right pocket
+      createVector(420, 210),  //top - left pocket
+      createVector(948, 187), //top - middle pocket
+      createVector(1485, 204), //top - right pocket
+      createVector(418, 745), //bottom - left pocket
+      createVector(950, 760), //bottom - middle pocket  
+      createVector(1485, 745), //bottom - right pocket
     ];
   },
   checkPockets: function () {
