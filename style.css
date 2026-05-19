@@ -9,8 +9,25 @@ canvas {
 
 ul.horizontal {
   list-style: none;
-  padding: 5;
   display: flex;
   gap: 800px;
+
+  background-color: #C77DFF;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border-radius: 40px;
+  font-size: large;
+  font-family: cursive;
+  font-weight: 600;
+   
+}
+
+ul.horizontal a {
+text-decoration: none;
+transition: transform .3s; } ul.horizontal :hover { transform: translateY(-20px);  
 }
     
+p {
+  color: #C77DFF;
+  font-size: large;
+}
