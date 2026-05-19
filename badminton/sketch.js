@@ -5,46 +5,73 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const LINE_DISTANCE = 100;
+let floor;
+let net;
+
+let player1;
+let player2;
+
+let birdie;
+
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  drawCourt();
+  new Canvas(1000, 600);
+  displayMode(CENTER);
+  world.gravity.y = 12;
+
+  //creates the floor, net, players and birdie
+  floor = new Sprite(500, 570, 900, 40, "static");
+  floor.color = color(0);
+
+  net = new Sprite(500, 420, 10, 220, "static");
+  net.color = color(255);
+
+  player1 = new Sprite(250, 450, 50, 100);
+  player2 = new Sprite(750, 450, 50, 100);
+
+  birdie = new Sprite(500, 200, 18);
+  birdie.color = "white";
 }
 
 function draw() {
-  background(50);
+  background(35, 140, 80);
+
+  drawCourt();
+  movement();
 }
 
 function drawCourt() {
-  // the most bottom line of the court
-  let bottomLine = new Sprite();  
-  bottomLine.y = height - LINE_DISTANCE;
-  bottomLine.x = width/2;
-  bottomLine.h = 5;
-  bottomLine.w = width;
-  bottomLine.color = "white";
+  const LINEX = 50;
+  const LINEY1 = 180;
+  const LINEY2 = 540;
 
-  // the second bottom line of the court
-  let bottomLine2 = new Sprite();  
-  bottomLine2.y = height - LINE_DISTANCE*2;
-  bottomLine2.x = width/2;
-  bottomLine2.h = 5;
-  bottomLine2.w = width;
-  bottomLine2.color = "white";
+  line(LINEX, LINEY1, LINEX, LINEY2);
+  line(LINEX * 5, LINEY1, LINEX * 5, LINEY2);
+  line(LINEX * 15, LINEY1, LINEX * 15, LINEY2);
+  line(LINEX * 20 - LINEX, LINEY1, LINEX * 20 - LINEX, LINEY2); 
+}
 
-  // the highest line of the court
-  let topLine = new Sprite();  
-  topLine.y = LINE_DISTANCE;
-  topLine.x = width/2;
-  topLine.h = 5;
-  topLine.w = width;
-  topLine.color = "white";
-
-  // the second highest line of the court
-  let topLine2 = new Sprite();  
-  topLine2.y = LINE_DISTANCE*2;
-  topLine2.x = width/2;
-  topLine2.h = 5;
-  topLine2.w = width;
-  topLine2.color = "white";
+function movement() {
+  // player 1 
+  player1.vel.x = 0;
+  if (kb.pressing("a")) {
+   player1.vel.x = -5;
+  }
+  if (kb.pressing("d")) {
+   player1.vel.x = 5;
+  }
+  if (kb.presses("w") && player1.colliding(floor)) {
+   player1.vel.y = -11;
+  }
+  
+  // player 2
+  player2.vel.x = 0;
+  if (keyIsDown(LEFT_ARROW)) {
+   player2.vel.x = -5;
+  }
+  if (keyIsDown(RIGHT_ARROW)) {
+   player2.vel.x = 5;
+  }
+  if (keyIsDown(UP_ARROW) && player2.colliding(floor)) {
+   player2.vel.y = -11;
+  }
 }
