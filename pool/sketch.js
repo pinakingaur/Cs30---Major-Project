@@ -79,8 +79,6 @@ class Ball {
   }
 }
 
-
-
 //Width between canvas and the table
 
 function preload() {
@@ -136,7 +134,7 @@ function limitBallSpeed(ball, maxSpeed = 30) {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL);
+  createCanvas(1910, 950, WEBGL);
   matter = Matter.Engine.create();
   matter.world.gravity.y = 0;
 
