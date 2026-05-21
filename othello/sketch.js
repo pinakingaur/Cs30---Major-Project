@@ -163,20 +163,27 @@ function inBounds(x, y) {
 }
 
 function displayGrid() {
+  const PIECE_SIZE = 0.7;
+
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
+      
+      // draw board square
+      fill("green");
+      square(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE);
 
+      // draw white piece
       if (grid[y][x] === WHITE_TILE) {
         fill("white");
+        circle(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2, CELL_SIZE * PIECE_SIZE);
       }
+      
+      // draw black piece
       else if (grid[y][x] === BLACK_TILE) {
         fill("black");
+        circle(x * CELL_SIZE + CELL_SIZE / 2, y * CELL_SIZE + CELL_SIZE / 2, CELL_SIZE * PIECE_SIZE);
       }
-      else {
-        fill("green");
-      }
-
-      square(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE);
     }
   }
 }
+
