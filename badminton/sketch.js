@@ -13,6 +13,8 @@ let player2;
 
 let birdie;
 
+let crowd = [];
+
 function setup() {
   new Canvas(1000, 600);
   displayMode(CENTER);
@@ -20,6 +22,7 @@ function setup() {
   
   // birdie physics
   birdie.vel.x = random([-5, 5]);
+  createAudience();
 }
 
 function draw() {
@@ -29,6 +32,7 @@ function draw() {
   movement();
   drawBirdieGraphic();
   hitBirdie();
+  drawAudience();
 }
 
 function drawCourt() {
@@ -100,8 +104,8 @@ function drawBirdieGraphic() {
 
 function hitBirdie() {
   const BIRDIE_VELOCITY = 9;
-
- // player 1 hit
+  
+  // player 1 hit
  if (kb.pressing("f")) {
   let d = dist(
      player1.x,
@@ -134,4 +138,28 @@ function hitBirdie() {
   birdie.vel.x = 0;
   birdie.vel.y = 0;
 }
+}
+
+function createAudience() {
+  // makes and pushes 29 fans
+  for (let i = 0; i < 29; i++) {
+    crowd.push({
+    x: i * 35,
+    y: random(70, 130),
+    c: color(
+       random(100,255),
+       random(100,255),
+       random(100,255)
+     )
+   });
+ }
+}
+
+function drawAudience() {
+  fill(50);
+  rect(0, 0, width, 170);
+  for (let fan of crowd) {  // draws the fans
+    fill(fan.c);
+  circle(fan.x, fan.y + frameCount % 1, 22);
+ }
 }
