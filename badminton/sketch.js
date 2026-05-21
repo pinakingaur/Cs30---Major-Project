@@ -106,53 +106,53 @@ function hitBirdie() {
   const BIRDIE_VELOCITY = 9;
   
   // player 1 hit
- if (kb.pressing("f")) {
-  let d = dist(
-     player1.x,
-     player1.y - 40,
-     birdie.x,
-     birdie.y
-   );
-   if (d < 90) {
-     birdie.vel.x = BIRDIE_VELOCITY;
-     birdie.vel.y = -BIRDIE_VELOCITY;
-   }
- }
+  if (kb.pressing("f")) {
+    let d = dist(
+      player1.x,
+      player1.y - 40,
+      birdie.x,
+      birdie.y
+    );
+    if (d < 90) {
+      birdie.vel.x = BIRDIE_VELOCITY;
+      birdie.vel.y = -BIRDIE_VELOCITY;
+    } 
+  }
 
- // player 2 hit
+  // player 2 hit
   if (keyIsDown(191)) {   // It means the "/" key
     let d = dist(
-     player2.x,
-     player2.y - 40,
-     birdie.x,
-     birdie.y
-   );
-   if (d < 90) {
-    birdie.vel.x = -BIRDIE_VELOCITY;
-    birdie.vel.y = -BIRDIE_VELOCITY;
-   }
- }
+      player2.x,
+      player2.y - 40,
+      birdie.x,
+      birdie.y
+    );
+    if (d < 90) {
+      birdie.vel.x = -BIRDIE_VELOCITY;
+      birdie.vel.y = -BIRDIE_VELOCITY;
+    }
+  }
 
- // completely stops birdie as soon as it hits the floor
- if (birdie.colliding(floor)) {
-  birdie.vel.x = 0;
-  birdie.vel.y = 0;
-}
+  // completely stops birdie as soon as it hits the floor
+  if (birdie.colliding(floor)) {
+    birdie.vel.x = 0;
+    birdie.vel.y = 0;
+  }
 }
 
 function createAudience() {
   // makes and pushes 29 fans
   for (let i = 0; i < 29; i++) {
     crowd.push({
-    x: i * 35,
-    y: random(70, 130),
-    c: color(
-       random(100,255),
-       random(100,255),
-       random(100,255)
-     )
-   });
- }
+      x: i * 35,
+      y: random(70, 130),
+      c: color(
+        random(100,255),
+        random(100,255),
+        random(100,255)
+      )
+    });
+  }
 }
 
 function drawAudience() {
@@ -160,6 +160,6 @@ function drawAudience() {
   rect(0, 0, width, 170);
   for (let fan of crowd) {  // draws the fans
     fill(fan.c);
-  circle(fan.x, fan.y + frameCount % 1, 22);
- }
+    circle(fan.x, fan.y + frameCount % 1, 22);
+  }
 }

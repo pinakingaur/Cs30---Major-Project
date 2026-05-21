@@ -12,7 +12,7 @@ const BOARD = 5;
 let rows = 8;
 let cols = 8;
 
-const CELL_SIZE = 80;
+const CELL_SIZE = 115;
 
 // check all 8 directions
 const directions = [
@@ -24,6 +24,9 @@ let grid = [];
 let currentPlayer = BLACK_TILE;
 let opponent;
 let gameRules;
+
+let blackCounter = 2;
+let whiteCounter = 2;
 
 function setup() {
   createCanvas(cols * CELL_SIZE, rows * CELL_SIZE);
@@ -62,6 +65,8 @@ function displayText() {
   else {
     text("Turn: WHITE", width/2, height - 20);
   }
+  text(blackCounter, 10, height - 20);
+  text(whiteCounter, 30, height - 20);
 }
 
 function mousePressed() {
@@ -186,4 +191,13 @@ function displayGrid() {
     }
   }
 }
+
+// function score() {
+//   for (let black in rows) {
+//     for (let black in cols) {
+
+//     }
+//   }
+// }
+
 
