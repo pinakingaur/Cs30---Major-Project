@@ -10,12 +10,13 @@ let matter;
 let balls = [];
 let cueBall; 
 let aimLine; 
-const ballRadius = 12;
-const cueBallOrigin = 1000;
-const pocketToBallRatio = 4;
-const rim = 40; 
 let debugMode = false;
 let dragStart;
+
+const ballRadius = 12;
+const cueBallOrigin = 1300;
+const pocketToBallRatio = 4;
+const rim = 40; 
 
 class HitBox {
   // makes the rectangles
@@ -35,9 +36,10 @@ class HitBox {
 }
 
 class Ball {
-  constructor(x, y, name) {
+  constructor(x, y, name, color) {
     this.name = name;
-
+    this.color = color;
+    
     // gives the balls physics
     this.body = Matter.Bodies.circle(x, y, ballRadius, {
       restitution: 0.9,
@@ -79,8 +81,6 @@ class Ball {
   }
 }
 
-//Width between canvas and the table
-
 function preload() {
   poolImg = loadImage("table.png");
 }
@@ -90,8 +90,6 @@ function keyPressed() {
     debugMode =! debugMode;
   }
 }
-
-
 
 function mousePressed() {
   if (!cueBall) return;
@@ -110,10 +108,9 @@ function mouseReleased() {
   dragStart = null;
 }
 
-
 function drawCueLine() {
-  stroke("pink");
-  strokeWeight(4);
+  stroke("violet");
+  strokeWeight(6);
   line(cueBall.body.position.x, cueBall.body.position.y, mouseX, mouseY);
   noStroke(0);
 }
@@ -123,13 +120,17 @@ function resetCueBall() {
   cueBall.setVelocity(0, 0);
 }
 
-function limitBallSpeed(ball, maxSpeed = 30) {
+function limitBallSpeed(ball, maxSpeed = 30, allBallsStopped = 0) {
   let vel = ball.velocity();
   let speed = vel.mag();
 
   if (speed > maxSpeed) {
     vel.normalize().mult(maxSpeed);
     ball.setVelocity(vel.x, vel.y);
+  }
+
+  if (allBallsStopped <= speed) {
+
   }
 }
 
@@ -144,7 +145,6 @@ function setup() {
 
   imageMode(CENTER);
   Matter.Runner.run(matter);
-
 }
 
 function draw() {
@@ -167,7 +167,6 @@ function draw() {
   }
 
   drawDebug();
-  console.log(mouseX, mouseY);
 }
 
 const table = {
@@ -228,7 +227,7 @@ const table = {
 
 function rackBalls() {
   // draws the cue ball
-  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue");
+  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue", "black");
   balls.push(cueBall);
 
   // draws the pool balls in a triangle
@@ -247,7 +246,6 @@ function rackBalls() {
     rowLength++;
   }
 }
-
 
 function drawDebug() {
   // makes a visible table border
