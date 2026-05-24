@@ -33,6 +33,7 @@ function draw() {
   drawBirdieGraphic();
   hitBirdie();
   drawAudience();
+  drawRackets();
 }
 
 function drawCourt() {
@@ -156,10 +157,41 @@ function createAudience() {
 }
 
 function drawAudience() {
+  noStroke();
   fill(50);
   rect(0, 0, width, 170);
   for (let fan of crowd) {  // draws the fans
     fill(fan.c);
     circle(fan.x, fan.y + frameCount % 1, 22);
   }
+}
+
+function drawRacket(player, flipped) {
+  let rx;
+  let ry = player.y - 50;
+
+  if (flipped) {
+    rx = player.x - 45;
+  }
+  else {
+  rx = player.x + 45;
+ }
+
+ stroke(120, 70, 20);
+ strokeWeight(8);
+ 
+ line(
+   player.x,
+   player.y,
+   rx,
+   ry
+ );
+ stroke(240);
+ strokeWeight(5);
+ ellipse(rx, ry, 50, 70);
+}
+
+function drawRackets() {
+  drawRacket(player1, false);
+  drawRacket(player2, true);
 }
