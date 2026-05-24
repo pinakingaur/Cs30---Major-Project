@@ -52,21 +52,26 @@ function draw() {
 }
 
 function displayText() {
+  // Edits the texts below
   fill(255);
   textStyle("bold");
-  textSize(50);
   textAlign(CENTER);
+  
+  textSize(50);
   text("Othello", width/2, 50);
-
+  
   textSize(24);
+  // Displays who's turn is it
   if (currentPlayer === BLACK_TILE) {
     text("Turn: BLACK", width/2, height - 20);
   } 
   else {
     text("Turn: WHITE", width/2, height - 20);
   }
-  text(blackCounter, 10, height - 20);
-  text(whiteCounter, 30, height - 20);
+  
+  // Displays the number of discs for each color
+  text("Black: " + blackCounter, 80, height - 20);
+  text("White: " + whiteCounter, 220, height - 20);
 }
 
 function mousePressed() {
@@ -143,6 +148,7 @@ function placeAndFlip(x, y, player) {
       flipDirection(x, y, dir[0], dir[1], player);
     }
   }
+  score();
 }
 
 function flipDirection(x, y, dx, dy, player) {
@@ -192,12 +198,22 @@ function displayGrid() {
   }
 }
 
-// function score() {
-//   for (let black in rows) {
-//     for (let black in cols) {
+function score() {
+  blackCounter = 0;
+  whiteCounter = 0;
 
-//     }
-//   }
-// }
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+
+      if (grid[y][x] === BLACK_TILE) {
+        blackCounter++;
+      }
+
+      else if (grid[y][x] === WHITE_TILE) {
+        whiteCounter++;
+      }
+    }
+  }
+}
 
 
