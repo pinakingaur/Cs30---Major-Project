@@ -15,6 +15,9 @@ let birdie;
 
 let crowd = [];
 
+let p1Score = 0;
+let p2Score = 0;
+
 function setup() {
   new Canvas(1000, 600);
   displayMode(CENTER);
@@ -34,6 +37,8 @@ function draw() {
   hitBirdie();
   drawAudience();
   drawRackets();
+  resetBirdie();
+  drawUI();
 }
 
 function drawCourt() {
@@ -194,4 +199,34 @@ function drawRacket(player, flipped) {
 function drawRackets() {
   drawRacket(player1, false);
   drawRacket(player2, true);
+}
+
+function resetBirdie() {
+  if (birdie.y > 590) {
+  // left side
+    if (birdie.x < width / 2) {
+      p2Score++;
+    }
+    
+    // right side
+    else {
+      p1Score++;
+    }
+    // reset birdie
+    birdie.x = 500;
+    birdie.y = 200;
+    birdie.vel.x = random([-5, 5]);
+    birdie.vel.y = -5;
+ }
+}
+
+function drawUI() {
+  fill(255);
+  textSize(40);
+  textAlign(CENTER);
+  text(
+   p1Score + " : " + p2Score,
+   width / 2,
+   70
+ );
 }
