@@ -19,7 +19,7 @@ let p1Score = 0;
 let p2Score = 0;
 
 function setup() {
-  new Canvas(1000, 600);
+  new Canvas(windowWidth, windowHeight);
   displayMode(CENTER);
   starting_scene();
   
@@ -39,6 +39,7 @@ function draw() {
   drawRackets();
   resetBirdie();
   drawUI();
+  // console.log(mouseX, mouseY);
 }
 
 function drawCourt() {
@@ -85,7 +86,7 @@ function starting_scene() {
   world.gravity.y = 12;
 
   // creates the floor, net, players and birdie
-  floor = new Sprite(500, 570, 900, 40, "static");
+  floor = new Sprite(0, 570, 2000, 40, "static");
   floor.color = color(0);
 
   net = new Sprite(500, 420, 10, 220, "static");
@@ -96,6 +97,9 @@ function starting_scene() {
 
   birdie = new Sprite(500, 200, 18);
   birdie.color = "white";
+
+  // dont let player 1 go into the floor
+  player1.y !== 449;
 }
 
 function drawBirdieGraphic() {
@@ -147,7 +151,7 @@ function hitBirdie() {
 }
 
 function createAudience() {
-  // makes and pushes 29 fans
+  // makes and pushes 29 fans / mini circles.
   for (let i = 0; i < 29; i++) {
     crowd.push({
       x: i * 35,
@@ -179,21 +183,16 @@ function drawRacket(player, flipped) {
     rx = player.x - 45;
   }
   else {
-  rx = player.x + 45;
- }
+    rx = player.x + 45;
+  }
 
- stroke(120, 70, 20);
- strokeWeight(8);
+  stroke(120, 70, 20);
+  strokeWeight(8);
  
- line(
-   player.x,
-   player.y,
-   rx,
-   ry
- );
- stroke(240);
- strokeWeight(5);
- ellipse(rx, ry, 50, 70);
+  line(player.x, player.y, rx, ry);
+  stroke(240);
+  strokeWeight(5);
+  ellipse(rx, ry, 50, 70);
 }
 
 function drawRackets() {
@@ -217,16 +216,12 @@ function resetBirdie() {
     birdie.y = 200;
     birdie.vel.x = random([-5, 5]);
     birdie.vel.y = -5;
- }
+  }
 }
 
 function drawUI() {
   fill(255);
   textSize(40);
   textAlign(CENTER);
-  text(
-   p1Score + " : " + p2Score,
-   width / 2,
-   70
- );
+  text(p1Score + " : " + p2Score, width / 2, 70);
 }
