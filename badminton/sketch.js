@@ -11,6 +11,7 @@ let net;
 let player1;
 let player2;
 
+let racket;
 let birdie;
 
 let crowd = [];
@@ -18,11 +19,19 @@ let crowd = [];
 let p1Score = 0;
 let p2Score = 0;
 
+let birdieIMG;
+let racketIMG;
+
+function preload() {
+  birdieIMG = loadImage("birdie.png");
+  racketIMG = loadImage("racket.png");
+}
+
 function setup() {
   new Canvas(windowWidth, windowHeight);
   displayMode(CENTER);
   starting_scene();
-  
+
   // birdie physics
   birdie.vel.x = random([-5, 5]);
   createAudience();
@@ -31,14 +40,15 @@ function setup() {
 function draw() {
   background(35, 140, 80);
 
+  drawRackets();
   drawCourt();
   movement();
   drawBirdieGraphic();
   hitBirdie();
   drawAudience();
-  drawRackets();
   resetBirdie();
   drawUI();
+  
   // console.log(mouseX, mouseY);
 }
 
@@ -95,11 +105,16 @@ function starting_scene() {
   player1 = new Sprite(250, 450, 50, 100);
   player2 = new Sprite(750, 450, 50, 100);
 
-  birdie = new Sprite(500, 200, 18);
-  birdie.color = "white";
+  player1.image = racketIMG;
+  player2.image = racketIMG;
 
-  // dont let player 1 go into the floor
-  player1.y !== 449;
+  player1.image.scale = 0.5;
+  player2.image.scale = 0.5;
+
+  birdie = new Sprite(500, 200, 18);
+  // birdie.color = "white";
+  birdie.image = birdieIMG;
+  birdie.image.scale = 0.1;
 }
 
 function drawBirdieGraphic() {
@@ -107,8 +122,8 @@ function drawBirdieGraphic() {
   translate(birdie.x, birdie.y);
   rotate(frameCount * 0.05);
   fill(255);
-  ellipse(0, 0, 18);
-  triangle(-10, 5, 10, 5, 0, 28);
+  // ellipse(0, 0, 18);
+  // triangle(-10, 5, 10, 5, 0, 28);
   pop();
 }
 
@@ -189,10 +204,15 @@ function drawRacket(player, flipped) {
   stroke(120, 70, 20);
   strokeWeight(8);
  
-  line(player.x, player.y, rx, ry);
-  stroke(240);
-  strokeWeight(5);
-  ellipse(rx, ry, 50, 70);
+  // line(player.x, player.y, rx, ry);
+  // stroke(0);
+  // strokeWeight(5);
+  // ellipse(rx, ry, 50, 70);
+
+  // racket = new Sprite(player.x, player.y, rx, ry);
+  // racket.image = racketIMG;
+  // racket.image.scale = 0.2; 
+  
 }
 
 function drawRackets() {
