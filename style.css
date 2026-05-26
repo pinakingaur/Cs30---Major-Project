@@ -10,7 +10,7 @@ canvas {
 ul.horizontal {
   list-style: none;
   display: flex;
-  gap: 800px;
+  gap: 700px;
 
   background-color: #C77DFF;
   padding-top: 50px;
@@ -24,10 +24,25 @@ ul.horizontal {
 
 ul.horizontal a {
 text-decoration: none;
-transition: transform 5s; } ul.horizontal:hover { transform: translateY(-5px);  
+}
+
+.pool {
+  list-style: none;
+  transition: transform .1s; } .pool:hover { transform: translateY(-8px);
+}
+
+.othello {
+  list-style: none;
+  transition: transform .1s; } .othello:hover { transform: translateY(-8px);  
+}
+
+.badminton {
+  list-style: none;
+  transition: transform .1s; } .badminton:hover { transform: translateY(-8px);  
 }
 
 p {
   color: #C77DFF;
   font-size: large;
 }
+
