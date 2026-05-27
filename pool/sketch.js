@@ -151,7 +151,7 @@ function draw() {
   Matter.Engine.update(matter);
   background(0);
   translate(-width / 2, -height / 2);
-  image(poolImg, width/2, height/2, poolImg.width*4, poolImg.height*4);  
+  image(poolImg, width/2, height/2, poolImg.width*2, poolImg.height*2); 
 
   // Draw the balls
   balls.forEach((ball) => {
@@ -165,7 +165,6 @@ function draw() {
   if (dragStart) {
     drawCueLine();
   }
-
   drawDebug();
 }
 

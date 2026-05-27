@@ -23,7 +23,3 @@ function spamCircles() {
     circle(mouseX, mouseY, 25); 
   }
 }
-
-
-
-
