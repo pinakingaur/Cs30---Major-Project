@@ -6,3 +6,16 @@ html, body {
 canvas {
   display: block;
 }
+
+.badminton {
+  padding-left: 400px;
+  font-size: large;
+  font-family: cursive;
+  font-weight: 600;
+  list-style: none;
+  transition: transform .1s; } .badminton:hover { transform: translateY(-8px);
+}
+
+ul.badminton a {
+text-decoration: none;
+}

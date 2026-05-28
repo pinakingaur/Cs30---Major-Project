@@ -22,6 +22,10 @@ let p2Score = 0;
 let birdieIMG;
 let racketIMG;
 
+const LINEX = 100;
+const LINEY1 = 180;
+const LINEY2 = 500;
+
 function preload() {
   birdieIMG = loadImage("birdie.png");
   racketIMG = loadImage("racket.png");
@@ -29,7 +33,7 @@ function preload() {
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
-  displayMode(CENTER);
+  // displayMode(CENTER);
   starting_scene();
 
   // birdie physics
@@ -53,14 +57,15 @@ function draw() {
 }
 
 function drawCourt() {
-  const LINEX = 50;
-  const LINEY1 = 180;
-  const LINEY2 = 540;
+  // const LINEX = 50;
+  // const LINEY1 = 180;
+  // const LINEY2 = 540;
 
-  line(LINEX, LINEY1, LINEX, LINEY2);   // the first line
-  line(LINEX * 5, LINEY1, LINEX * 5, LINEY2);   // the second line
-  line(LINEX * 15, LINEY1, LINEX * 15, LINEY2);   // the third line
-  line(LINEX * 20 - LINEX, LINEY1, LINEX * 20 - LINEX, LINEY2);   // the fourth line
+
+  line(LINEX * 3, LINEY1, LINEX * 3, LINEY2);   // the first line
+  line(LINEX * 7, LINEY1, LINEX * 7, LINEY2);   // the second line
+  line(LINEX * 10, LINEY1, LINEX * 10, LINEY2);   // the third line
+  line(LINEX * 15 - LINEX, LINEY1, LINEX * 15 - LINEX, LINEY2);   // the fourth line
 }
 
 function movement() {
@@ -96,7 +101,11 @@ function starting_scene() {
   world.gravity.y = 12;
 
   // creates the floor, net, players and birdie
-  floor = new Sprite(0, 570, 2000, 40, "static");
+  floor = new Sprite();
+  floor.x = LINEX*3;
+  floor.y = 570;
+  floor.width = LINEX * 15;
+  floor.physics = "static";
   floor.color = color(0);
 
   net = new Sprite(500, 420, 10, 220, "static");
@@ -166,8 +175,8 @@ function hitBirdie() {
 }
 
 function createAudience() {
-  // makes and pushes 29 fans / mini circles.
-  for (let i = 0; i < 29; i++) {
+  // makes and pushes 60 fans / mini circles.
+  for (let i = 0; i < 60; i++) {
     crowd.push({
       x: i * 35,
       y: random(70, 130),
