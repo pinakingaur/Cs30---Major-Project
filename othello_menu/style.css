@@ -8,12 +8,13 @@ canvas {
 }
 
 .othello {
-  padding-left: 400px;
-  font-size: large;
+  position: absolute;
+  padding-left: 800px;
+  font-size: 50px;
   font-family: cursive;
   font-weight: 600;
   list-style: none;
-  transition: transform .1s; } .othello:hover { transform: translateY(-8px);
+  transition: transform .1s; } .pool:hover { transform: translateY(-5px);
 }
 
 ul.othello a {

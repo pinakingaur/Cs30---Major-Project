@@ -28,17 +28,17 @@ text-decoration: none;
 
 .pool {
   list-style: none;
-  transition: transform .1s; } .pool:hover { transform: translateY(-8px);
+  transition: transform .1s; } .pool:hover { transform: translateY(-5px);
 }
 
 .othello {
   list-style: none;
-  transition: transform .1s; } .othello:hover { transform: translateY(-8px);  
+  transition: transform .1s; } .othello:hover { transform: translateY(-5px);  
 }
 
 .badminton {
   list-style: none;
-  transition: transform .1s; } .badminton:hover { transform: translateY(-8px);  
+  transition: transform .1s; } .badminton:hover { transform: translateY(-5px);  
 }
 
 p {

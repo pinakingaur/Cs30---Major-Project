@@ -100,19 +100,20 @@ function movement() {
 function starting_scene() {
   world.gravity.y = 12;
 
-  // creates the floor, net, players and birdie
+  // creates the floor
   floor = new Sprite();
-  floor.x = LINEX*3;
+  floor.x = LINEX * 8.5;
   floor.y = 570;
-  floor.width = LINEX * 15;
+  floor.width = LINEX * 12;
   floor.physics = "static";
   floor.color = color(0);
 
-  net = new Sprite(500, 420, 10, 220, "static");
+  //creates net, players and birdie
+  net = new Sprite(LINEX * 8.5, 420, 10, 220, "static");
   net.color = color(255);
 
-  player1 = new Sprite(250, 450, 50, 100);
-  player2 = new Sprite(750, 450, 50, 100);
+  player1 = new Sprite(LINEX*7 - 150, 450, 50, 100);
+  player2 = new Sprite(LINEX*10 + 150, 450, 50, 100);
 
   player1.image = racketIMG;
   player2.image = racketIMG;
