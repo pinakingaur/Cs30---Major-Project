@@ -76,9 +76,19 @@ class Ball {
     push();
     translate(this.x(), this.y());
     noStroke();
+    fill(this.color);
     sphere(ballRadius);
-    pop();
+    
+    if (this.name.startsWith("stripe-")) {
+      push();
+      translate(0, 0, ballRadius + 1);
+      fill("white");
+      ellipseMode(CENTER);
+      ellipse(0, 0, ballRadius * 1.8, ballRadius * 0.8);
+      pop();
   }
+  pop();
+}
 }
 
 function preload() {
@@ -226,21 +236,55 @@ const table = {
 
 function rackBalls() {
   // draws the cue ball
-  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue", "black");
+  cueBall = new Ball(cueBallOrigin, table.centerY(), "cue", "white");
   balls.push(cueBall);
 
   // draws the pool balls in a triangle
   const footSpotX = 700;
   const spacing = 2 * ballRadius + 3;
   const xOffset = sqrt(3) * ballRadius;
+
+  const colors = [
+    "yellow",
+    "blue",
+    "red",
+    "purple",
+    "orange",
+    "green",
+    "brown"
+  ];
+
+  let ballNumber = 1;
   let rowLength = 1;
-  let i = 0;
+
   for (let row = 0; row < 5; row++) {
     for (let col = 0; col < rowLength; col++) {
+
       let xPos = footSpotX - row * xOffset;
       let yPos = table.centerY() - (rowLength - 1) * ballRadius + col * spacing;
-      balls.push(new Ball(xPos, yPos));
-      i++;
+
+      let ball;
+
+      // 8-ball in center
+      if (row === 2 && col === 1) {
+        ball = new Ball(xPos, yPos, "8", "black");
+      }
+      else {
+        let color;
+
+        if (ballNumber <= 7) {
+          // Solids (1-7)
+          color = colors[ballNumber - 1];
+          ball = new Ball(xPos, yPos, `solid-${ballNumber}`, color);
+        }
+        else {
+          // Stripes (9-15)
+          color = colors[(ballNumber - 8) % 7];
+          ball = new Ball(xPos, yPos, `stripe-${ballNumber + 1}`, color);
+        }
+        ballNumber++;
+      }
+      balls.push(ball);
     }
     rowLength++;
   }
