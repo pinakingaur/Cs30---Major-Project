@@ -103,8 +103,12 @@ function keyPressed() {
 
 function mousePressed() {
   if (!cueBall) return;
-  let nearCueBall =
-      dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
+
+  // Don't allow shooting while cue ball is moving
+  if (!cueBallStopped()) return;
+
+  let nearCueBall = dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
+  
   if (nearCueBall) {
     dragStart = createVector(mouseX, mouseY);
   }
@@ -172,9 +176,9 @@ function draw() {
   table.checkPockets();
 
   // Draw the cue
-  if (dragStart) {
-    drawCueLine();
-  }
+  if (dragStart && cueBallStopped()) {
+  drawCueLine();
+}
   drawDebug();
 }
 
@@ -313,4 +317,8 @@ function drawDebug() {
     ellipse(pocket.x, pocket.y, r, r);
   });
   pop();
+}
+
+function cueBallStopped() {
+  return cueBall.velocity().mag() < 0.1;
 }
