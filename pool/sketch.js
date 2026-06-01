@@ -6,6 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 let poolImg;
+let backgroundIMG;
 let matter;  
 let balls = [];
 let cueBall; 
@@ -92,7 +93,8 @@ class Ball {
 }
 
 function preload() {
-  poolImg = loadImage("table.png");
+  poolImg = loadImage("table.jpg");
+  backgroundIMG = loadImage("background.png");
 }
 
 function keyPressed() {
@@ -134,17 +136,13 @@ function resetCueBall() {
   cueBall.setVelocity(0, 0);
 }
 
-function limitBallSpeed(ball, maxSpeed = 30, allBallsStopped = 0) {
+function limitBallSpeed(ball, maxSpeed = 30) {
   let vel = ball.velocity();
   let speed = vel.mag();
 
   if (speed > maxSpeed) {
     vel.normalize().mult(maxSpeed);
     ball.setVelocity(vel.x, vel.y);
-  }
-
-  if (allBallsStopped <= speed) {
-
   }
 }
 
@@ -163,9 +161,12 @@ function setup() {
 
 function draw() {
   Matter.Engine.update(matter);
+  
   background(0);
+  image(backgroundIMG, 0, 0, width, height);
+  
   translate(-width / 2, -height / 2);
-  image(poolImg, width/2, height/2, poolImg.width*2, poolImg.height*2); 
+  image(poolImg, width/2, height/2, poolImg.width * 2, poolImg.height * 2); 
 
   // Draw the balls
   balls.forEach((ball) => {
@@ -184,9 +185,9 @@ function draw() {
 
 const table = {
   left: 397, 
-  top: 170,
-  right: 1476,
-  bottom: 732,
+  top: 175,
+  right: 1470,
+  bottom: 725,
   boundaries: [],
   pockets: [],
 
@@ -211,11 +212,11 @@ const table = {
   // makes the pocket holes
   pocketHoles: function() {
     this.pockets = [
-      createVector(420, 210),  //top - left pocket
-      createVector(948, 187), //top - middle pocket
+      createVector(415, 205),  //top - left pocket
+      createVector(948, 185), //top - middle pocket
       createVector(1485, 204), //top - right pocket
       createVector(418, 745), //bottom - left pocket
-      createVector(950, 760), //bottom - middle pocket  
+      createVector(950, 755), //bottom - middle pocket  
       createVector(1485, 745), //bottom - right pocket
     ];
   },
@@ -254,7 +255,7 @@ function rackBalls() {
     "red",
     "purple",
     "orange",
-    "green",
+    "lightgreen",
     "brown"
   ];
 
