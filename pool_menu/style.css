@@ -9,16 +9,17 @@ canvas {
 
 .pool {
   position: absolute;
-  left: 800px;
+  left: 700px;
   font-size: 50px;
   font-family: cursive;
   font-weight: 600;
   list-style: none;
-  transition: transform .1s; } .pool:hover { transform: translateY(-5px);
+  transition: transform .1s; } .pool:hover { transform: translateY(-5px); 
 }
 
 ul.pool a {
-text-decoration: none;
+  text-decoration: none;
+  color: black;
 }
 
 p {

@@ -8,10 +8,13 @@
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  background(10);
+  drawLine();
 }
 
 function draw() {
   spamCircles(); 
+  
 }
 
 function spamCircles() {
@@ -21,5 +24,15 @@ function spamCircles() {
     let b = random(255);
     fill(r, g, b);
     circle(mouseX, mouseY, 25); 
+  }
+}
+
+function drawLine() {
+  stroke(255);
+  let lineY = 300;
+  
+  while (lineY < height) {
+    line(0, lineY, width, lineY);
+    lineY += 100;
   }
 }

@@ -9,14 +9,15 @@ canvas {
 
 .othello {
   position: absolute;
-  padding-left: 800px;
+  left: 800px;
   font-size: 50px;
   font-family: cursive;
   font-weight: 600;
   list-style: none;
-  transition: transform .1s; } .pool:hover { transform: translateY(-5px);
+  transition: transform .1s; } .othello:hover { transform: translateY(-5px);
 }
 
 ul.othello a {
 text-decoration: none;
+color: black;
 }

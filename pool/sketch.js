@@ -87,9 +87,9 @@ class Ball {
       ellipseMode(CENTER);
       ellipse(0, 0, ballRadius * 1.8, ballRadius * 0.8);
       pop();
+    }
+    pop();
   }
-  pop();
-}
 }
 
 function preload() {
@@ -178,7 +178,7 @@ function draw() {
 
   // Draw the cue
   if (dragStart && cueBallStopped()) {
-  drawCueLine();
+    drawCueLine();
 }
   drawDebug();
 }
