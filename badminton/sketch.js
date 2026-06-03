@@ -25,6 +25,7 @@ let racketIMG;
 const LINEX = 100;
 const LINEY1 = 180;
 const LINEY2 = 500;
+let BIRDIE_VELOCITY = 9;
 
 function preload() {
   birdieIMG = loadImage("birdie.png");
@@ -33,11 +34,11 @@ function preload() {
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
-  // displayMode(CENTER);
   starting_scene();
 
   // birdie physics
   birdie.vel.x = random([-5, 5]);
+  
   createAudience();
 }
 
@@ -57,15 +58,10 @@ function draw() {
 }
 
 function drawCourt() {
-  // const LINEX = 50;
-  // const LINEY1 = 180;
-  // const LINEY2 = 540;
-
-
-  line(LINEX * 3, LINEY1, LINEX * 3, LINEY2);   // the first line
+  line(LINEX * 3.5, LINEY1, LINEX * 3.5, LINEY2);   // the first line
   line(LINEX * 7, LINEY1, LINEX * 7, LINEY2);   // the second line
-  line(LINEX * 10, LINEY1, LINEX * 10, LINEY2);   // the third line
-  line(LINEX * 15 - LINEX, LINEY1, LINEX * 15 - LINEX, LINEY2);   // the fourth line
+  line(width - 700, LINEY1, width - 700, LINEY2);   // the third line
+  line(width - 350, LINEY1, width - 350, LINEY2);   // the fourth line
 }
 
 function movement() {
@@ -102,18 +98,18 @@ function starting_scene() {
 
   // creates the floor
   floor = new Sprite();
-  floor.x = LINEX * 8.5;
+  floor.x = LINEX * 9.6;
   floor.y = 570;
-  floor.width = LINEX * 12;
+  floor.width = LINEX * 13;
   floor.physics = "static";
   floor.color = color(0);
 
   //creates net, players and birdie
-  net = new Sprite(LINEX * 8.5, 420, 10, 220, "static");
+  net = new Sprite(width/2, 420, 10, 220, "static");
   net.color = color(255);
 
-  player1 = new Sprite(LINEX*7 - 150, 450, 50, 100);
-  player2 = new Sprite(LINEX*10 + 150, 450, 50, 100);
+  player1 = new Sprite(LINEX*7, 450, 50, 100);
+  player2 = new Sprite(width - 700, 450, 50, 100);
 
   player1.image = racketIMG;
   player2.image = racketIMG;
@@ -121,8 +117,7 @@ function starting_scene() {
   player1.image.scale = 0.5;
   player2.image.scale = 0.5;
 
-  birdie = new Sprite(500, 200, 18);
-  // birdie.color = "white";
+  birdie = new Sprite(width/2, 200, 18);
   birdie.image = birdieIMG;
   birdie.image.scale = 0.1;
 }
@@ -132,14 +127,20 @@ function drawBirdieGraphic() {
   translate(birdie.x, birdie.y);
   rotate(frameCount * 0.05);
   fill(255);
-  // ellipse(0, 0, 18);
-  // triangle(-10, 5, 10, 5, 0, 28);
   pop();
+
+  // slowly bounces and stops the birdie on the right side of the net
+  if (birdie.colliding(floor)) {
+    if (birdie.vel.x > 1) {
+      birdie.vel.x--;
+    }
+    else {
+      birdie.vel.x = 0;
+    }
+  }  
 }
 
 function hitBirdie() {
-  const BIRDIE_VELOCITY = 9;
-  
   // player 1 hit
   if (kb.pressing("f")) {
     let d = dist(
@@ -166,12 +167,6 @@ function hitBirdie() {
       birdie.vel.x = -BIRDIE_VELOCITY;
       birdie.vel.y = -BIRDIE_VELOCITY;
     }
-  }
-
-  // completely stops birdie as soon as it hits the floor
-  if (birdie.colliding(floor)) {
-    birdie.vel.x = 0;
-    birdie.vel.y = 0;
   }
 }
 
@@ -236,13 +231,14 @@ function resetBirdie() {
     if (birdie.x < width / 2) {
       p2Score++;
     }
-    
+
     // right side
     else {
       p1Score++;
     }
+    
     // reset birdie
-    birdie.x = 500;
+    birdie.x = width/2;
     birdie.y = 200;
     birdie.vel.x = random([-5, 5]);
     birdie.vel.y = -5;
