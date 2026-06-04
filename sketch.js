@@ -13,11 +13,11 @@ function setup() {
 }
 
 function draw() {
-  spamCircles(); 
-  
+  spamCircles();  
 }
 
 function spamCircles() {
+  noStroke();
   if(mouseIsPressed) {
     let r = random(255);
     let g = random(255);

@@ -13,6 +13,7 @@ let player2;
 
 let racket;
 let birdie;
+let birdieVelocity = 9;
 
 let crowd = [];
 
@@ -22,10 +23,9 @@ let p2Score = 0;
 let birdieIMG;
 let racketIMG;
 
-const LINEX = 100;
-const LINEY1 = 180;
-const LINEY2 = 500;
-let BIRDIE_VELOCITY = 9;
+const BASE = 100;
+const LINEY1 = BASE + 80;
+const LINEY2 = BASE * 5;
 
 function preload() {
   birdieIMG = loadImage("birdie.png");
@@ -58,8 +58,9 @@ function draw() {
 }
 
 function drawCourt() {
-  line(LINEX * 3.5, LINEY1, LINEX * 3.5, LINEY2);   // the first line
-  line(LINEX * 7, LINEY1, LINEX * 7, LINEY2);   // the second line
+  stroke(255);
+  line(BASE * 3.5, LINEY1, BASE * 3.5, LINEY2);   // the first line
+  line(BASE * 7, LINEY1, BASE * 7, LINEY2);   // the second line
   line(width - 700, LINEY1, width - 700, LINEY2);   // the third line
   line(width - 350, LINEY1, width - 350, LINEY2);   // the fourth line
 }
@@ -98,17 +99,17 @@ function starting_scene() {
 
   // creates the floor
   floor = new Sprite();
-  floor.x = LINEX * 9.6;
+  floor.x = BASE * 9.6;
   floor.y = 570;
-  floor.width = LINEX * 13;
+  floor.width = BASE * 13;
   floor.physics = "static";
   floor.color = color(0);
 
   //creates net, players and birdie
   net = new Sprite(width/2, 420, 10, 220, "static");
-  net.color = color(255);
+  net.color = color(0);
 
-  player1 = new Sprite(LINEX*7, 450, 50, 100);
+  player1 = new Sprite(BASE*7, 450, 50, 100);
   player2 = new Sprite(width - 700, 450, 50, 100);
 
   player1.image = racketIMG;
@@ -150,13 +151,13 @@ function hitBirdie() {
       birdie.y
     );
     if (d < 90) {
-      birdie.vel.x = BIRDIE_VELOCITY;
-      birdie.vel.y = -BIRDIE_VELOCITY;
+      birdie.vel.x = birdieVelocity;
+      birdie.vel.y = -birdieVelocity;
     } 
   }
 
   // player 2 hit
-  if (keyIsDown(191)) {   // It means the "/" key
+  if (keyIsDown(16)) {   // It means the shift key
     let d = dist(
       player2.x,
       player2.y - 40,
@@ -164,8 +165,8 @@ function hitBirdie() {
       birdie.y
     );
     if (d < 90) {
-      birdie.vel.x = -BIRDIE_VELOCITY;
-      birdie.vel.y = -BIRDIE_VELOCITY;
+      birdie.vel.x = -birdieVelocity;
+      birdie.vel.y = -birdieVelocity;
     }
   }
 }

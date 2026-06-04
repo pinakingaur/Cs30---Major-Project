@@ -21,3 +21,30 @@ ul.othello a {
 text-decoration: none;
 color: black;
 }
+
+.firstLine {
+  position: absolute;
+  top: 400px;
+  left: 500px;
+  font-size: 50px;
+  font-family: cursive;
+  font-weight: 600;
+}
+
+.secondLine {
+  position: absolute;
+  top: 500px;
+  left: 500px;
+  font-size: 50px;
+  font-family: cursive;
+  font-weight: 600;
+}
+
+.thirdLine {
+  position: absolute;
+  top: 600px;
+  left: 500px;
+  font-size: 50px;
+  font-family: cursive;
+  font-weight: 600;
+}

@@ -20,3 +20,28 @@ canvas {
 ul.badminton a {
 text-decoration: none;
 }
+
+h1 {
+  position: absolute;
+  top: 300px;
+  left: 200px;
+}
+
+.player1 {
+  left: 200px;
+  position: absolute;
+  font-size: 30px;
+  font-family: cursive;
+  font-weight: 600;
+  top: 400px;
+}
+
+.player2 {
+  left: 200px;
+  position: absolute;
+  position: absolute;
+  font-size: 30px;
+  font-family: cursive;
+  font-weight: 600;
+  top: 500px;
+}
