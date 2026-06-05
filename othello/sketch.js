@@ -63,14 +63,18 @@ function displayText() {
   textSize(24);
   // Displays who's turn is it
   if (currentPlayer === BLACK_TILE) {
+    fill(0);
     text("Turn: BLACK", width/2, height - 20);
   } 
   else {
+    fill(255);
     text("Turn: WHITE", width/2, height - 20);
   }
   
   // Displays the number of discs for each color
+  fill(0);
   text("Black: " + blackCounter, 80, height - 20);
+  fill(255);
   text("White: " + whiteCounter, 220, height - 20);
 }
 

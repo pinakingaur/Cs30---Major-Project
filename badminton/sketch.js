@@ -53,8 +53,6 @@ function draw() {
   drawAudience();
   resetBirdie();
   drawUI();
-  
-  // console.log(mouseX, mouseY);
 }
 
 function drawCourt() {
@@ -118,9 +116,13 @@ function starting_scene() {
   player1.image.scale = 0.5;
   player2.image.scale = 0.5;
 
-  birdie = new Sprite(width/2, 200, 18);
+  birdie = new Sprite(width/2, 200, 18)
   birdie.image = birdieIMG;
   birdie.image.scale = 0.1;
+}
+
+function mousePressed() {
+
 }
 
 function drawBirdieGraphic() {

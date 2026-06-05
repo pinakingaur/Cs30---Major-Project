@@ -7,12 +7,15 @@
 
 let poolImg;
 let backgroundIMG;
+
 let matter;  
 let balls = [];
 let cueBall; 
 let aimLine; 
 let debugMode = false;
 let dragStart;
+
+let hittingEffects;
 
 const ballRadius = 12;
 const cueBallOrigin = 1300;
@@ -95,11 +98,15 @@ class Ball {
 function preload() {
   poolImg = loadImage("table.jpg");
   backgroundIMG = loadImage("background.png");
+
+  soundFormats('mp3', 'ogg');
+  // hittingEffects = loadSound('/assets/doorbell');
 }
 
 function keyPressed() {
   if (key === "d") {
     debugMode =! debugMode;
+    // hittingEffects.play();
   }
 }
 
