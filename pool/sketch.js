@@ -80,20 +80,65 @@ class Ball {
     push();
     translate(this.x(), this.y());
     noStroke();
-    fill(this.color);
-    sphere(ballRadius);
-    
-    if (this.name.startsWith("stripe-")) {
-      push();
-      translate(0, 0, ballRadius + 1);
-      fill("white");
-      ellipseMode(CENTER);
-      ellipse(0, 0, ballRadius * 1.8, ballRadius * 0.8);
-      pop();
-    }
-    pop();
+
+  let number = "";
+
+  // Cue ball
+  if (this.name === "cue") {
+    fill("white");
+    circle(0, 0, ballRadius * 2);
   }
+
+  // 8-ball
+  else if (this.name === "8") {
+    fill("black");
+    circle(0, 0, ballRadius * 2);
+    number = "8";
+  }
+
+  // Solids
+  else if (this.name.startsWith("solid-")) {
+    fill(this.color);
+    circle(0, 0, ballRadius * 2);
+
+    number = this.name.split("-")[1];
+  }
+
+  // Stripes
+  else if (this.name.startsWith("stripe-")) {
+
+    fill("white");
+    circle(0, 0, ballRadius * 2);
+
+    fill(this.color);
+    rectMode(CENTER);
+    rect(0, 0, ballRadius * 2, ballRadius * 0.8, ballRadius * 0.3);
+
+    number = this.name.split("-")[1];
+  }
+
+  // Number label
+  if (number !== "") {
+
+    fill("white");
+    circle(0, 0, ballRadius * 0.9);
+
+    fill("black");
+
+    if (number.length === 2) {
+      textSize(8);
+    }
+    else {
+      textSize(10);
+    }
+
+    text(number, 0, 0);
+  }
+
+  pop();
 }
+}
+
 
 function preload() {
   poolImg = loadImage("table.jpg");
@@ -132,10 +177,23 @@ function mouseReleased() {
 }
 
 function drawCueLine() {
+  let cuePos = createVector(cueBall.body.position.x, cueBall.body.position.y);
+
+  let mousePos = createVector(mouseX, mouseY);
+
+  // Direction from cue ball to mouse
+  let dir = p5.Vector.sub(mousePos, cuePos);
+  dir.normalize();
+
+  // Start line at edge of ball
+  let startX = cuePos.x + dir.x * ballRadius;
+  let startY = cuePos.y + dir.y * ballRadius;
+
   stroke("violet");
   strokeWeight(6);
-  line(cueBall.body.position.x, cueBall.body.position.y, mouseX, mouseY);
-  noStroke(0);
+
+  line(startX, startY, mousePos.x, mousePos.y);
+  noStroke();
 }
 
 function resetCueBall() {
@@ -155,6 +213,10 @@ function limitBallSpeed(ball, maxSpeed = 30) {
 
 function setup() {
   createCanvas(1910, 950, WEBGL);
+
+  textAlign(CENTER, CENTER);
+  textFont("Arial");
+
   matter = Matter.Engine.create();
   matter.world.gravity.y = 0;
 
