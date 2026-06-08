@@ -23,6 +23,8 @@ let p2Score = 0;
 let birdieIMG;
 let racketIMG;
 
+let gameStarted = false;
+
 const BASE = 100;
 const LINEY1 = BASE + 80;
 const LINEY2 = BASE * 5;
@@ -34,11 +36,8 @@ function preload() {
 
 function setup() {
   new Canvas(windowWidth, windowHeight);
-  starting_scene();
 
-  // birdie physics
-  birdie.vel.x = random([-5, 5]);
-  
+  starting_scene();
   createAudience();
 }
 
@@ -98,8 +97,9 @@ function starting_scene() {
   // creates the floor
   floor = new Sprite();
   floor.x = BASE * 9.6;
-  floor.y = 570;
+  floor.y = BASE * 5.7;
   floor.width = BASE * 13;
+  floor.height = BASE / 2;
   floor.physics = "static";
   floor.color = color(0);
 
@@ -116,9 +116,13 @@ function starting_scene() {
   player1.image.scale = 0.5;
   player2.image.scale = 0.5;
 
-  birdie = new Sprite(width/2, 200, 18)
+  birdie = new Sprite(width/2, 200, 18);
   birdie.image = birdieIMG;
   birdie.image.scale = 0.1;
+
+  birdie.visible = false;
+  birdie.vel.x = 0;
+  birdie.vel.y = 0;
 }
 
 function mousePressed() {
@@ -229,22 +233,26 @@ function drawRackets() {
 }
 
 function resetBirdie() {
-  if (birdie.y > 590) {
-  // left side
+  if (birdie.colliding(floor) && gameStarted) {
+
+    // Birdie landed on Player 1's side
     if (birdie.x < width / 2) {
       p2Score++;
     }
 
-    // right side
+    // Birdie landed on Player 2's side
     else {
       p1Score++;
     }
-    
-    // reset birdie
-    birdie.x = width/2;
+
+    // Reset birdie and wait for B
+    birdie.x = width / 2;
     birdie.y = 200;
-    birdie.vel.x = random([-5, 5]);
-    birdie.vel.y = -5;
+    birdie.vel.x = 0;
+    birdie.vel.y = 0;
+
+    birdie.visible = false;
+    gameStarted = false;
   }
 }
 
@@ -253,4 +261,22 @@ function drawUI() {
   textSize(40);
   textAlign(CENTER);
   text(p1Score + " : " + p2Score, width / 2, 70);
+
+  if (!gameStarted) {
+    textSize(28);
+    text("Press B to Start Rally", width / 2, 120);
+  }
+}
+
+function keyPressed() {
+  if ((key === "b" || key === "B") && !gameStarted) {
+    gameStarted = true;
+
+    birdie.visible = true;
+    birdie.x = width / 2;
+    birdie.y = 200;
+
+    birdie.vel.x = random([-5, 5]);
+    birdie.vel.y = -5;
+  }
 }

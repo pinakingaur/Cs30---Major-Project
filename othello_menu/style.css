@@ -23,6 +23,8 @@ color: black;
 }
 
 .firstLine {
+  background-color: black;
+  color: red;
   position: absolute;
   top: 400px;
   left: 500px;
@@ -32,6 +34,8 @@ color: black;
 }
 
 .secondLine {
+  background-color: black;
+  color: red;
   position: absolute;
   top: 500px;
   left: 500px;
@@ -41,6 +45,8 @@ color: black;
 }
 
 .thirdLine {
+  background-color: black;
+  color: red;
   position: absolute;
   top: 600px;
   left: 500px;
