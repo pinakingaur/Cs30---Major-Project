@@ -13,3 +13,14 @@
 - Make sure the game doesn't start as soon as you dive in, so players can be ready before playing
 
 # Non-coding persons review
+ - Menu sections for each game are a bit confusing
+ 
+ ## 8 ball Pool
+ - Should tell which players turn is it
+ 
+ ## Othello
+ - Center the canvas so right side dont look blank
+
+ ## Badminton
+ - Make it so players dont fall of at the end of the floor
+ - Make it so the winner of the point gets to serve, not randomized.
