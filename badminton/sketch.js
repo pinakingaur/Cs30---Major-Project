@@ -1,9 +1,4 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// P5play Badminton
 
 let floor;
 let net;
@@ -24,6 +19,8 @@ let birdieIMG;
 let racketIMG;
 
 let gameStarted = false;
+
+let winner = "";
 
 const BASE = 100;
 const LINEY1 = BASE + 80;
@@ -47,10 +44,12 @@ function draw() {
   drawRackets();
   drawCourt();
   movement();
+  checkForWinner();
   drawBirdieGraphic();
   hitBirdie();
   drawAudience();
   resetBirdie();
+  isBirdieOnScreen();
   drawUI();
 }
 
@@ -91,6 +90,53 @@ function movement() {
   }
 }
 
+function checkForWinner() {
+  if (p1Score >= 11 && p1Score - p2Score >= 2 && winner === "") {
+  winner = "Player 1 Wins!";
+  noLoop();
+}
+
+if (p2Score >= 11 && p2Score - p1Score >= 2 && winner === "") {
+  winner = "Player 2 Wins!";
+  noLoop();
+}
+
+  // Player 1 fell off map
+  if (player1.y > height + 200 && winner === "") {
+    winner = "Player 2 Wins!";
+    noLoop();
+  }
+
+  // Player 2 fell off map
+  if (player2.y > height + 200 && winner === "") {
+    winner = "Player 1 Wins!";
+    noLoop();
+  }
+}
+
+function isBirdieOnScreen() {
+  // Birdie fell off the screen on Player 1's side
+  if (birdie.y > height + 200 && birdie.x < width / 2 && gameStarted) {
+    p1Score++;
+
+    birdie.visible = false;
+    birdie.vel.x = 0;
+    birdie.vel.y = 0;
+    gameStarted = false;
+  }
+
+  // Birdie fell off the screen on Player 2's side
+  if (birdie.y > height + 200 && birdie.x >= width / 2 && gameStarted) {
+    p2Score++;
+
+    birdie.visible = false;
+    birdie.vel.x = 0;
+    birdie.vel.y = 0;
+    gameStarted = false;
+  }
+}
+
+
 function starting_scene() {
   world.gravity.y = 12;
 
@@ -107,8 +153,8 @@ function starting_scene() {
   net = new Sprite(width/2, 420, 10, 220, "static");
   net.color = color(0);
 
-  player1 = new Sprite(BASE*7, 450, 50, 100);
-  player2 = new Sprite(width - 700, 450, 50, 100);
+  player1 = new Sprite(BASE * 6, BASE * 4.5, BASE / 2, BASE);
+  player2 = new Sprite(width - (BASE * 6), BASE * 4.5, BASE / 2, BASE);
 
   player1.image = racketIMG;
   player2.image = racketIMG;
@@ -116,17 +162,13 @@ function starting_scene() {
   player1.image.scale = 0.5;
   player2.image.scale = 0.5;
 
-  birdie = new Sprite(width/2, 200, 18);
+  birdie = new Sprite(width/2, BASE * 2, 18);
   birdie.image = birdieIMG;
   birdie.image.scale = 0.1;
 
   birdie.visible = false;
   birdie.vel.x = 0;
   birdie.vel.y = 0;
-}
-
-function mousePressed() {
-
 }
 
 function drawBirdieGraphic() {
@@ -148,28 +190,21 @@ function drawBirdieGraphic() {
 }
 
 function hitBirdie() {
-  // player 1 hit
-  if (kb.pressing("f")) {
-    let d = dist(
-      player1.x,
-      player1.y - 40,
-      birdie.x,
-      birdie.y
-    );
+  // Player 1 hit (press F once)
+  if (kb.presses("f")) {
+    let d = dist(player1.x, player1.y - 40, birdie.x, birdie.y);
+
     if (d < 90) {
       birdie.vel.x = birdieVelocity;
       birdie.vel.y = -birdieVelocity;
-    } 
+    }
   }
 
-  // player 2 hit
-  if (keyIsDown(16)) {   // It means the shift key
-    let d = dist(
-      player2.x,
-      player2.y - 40,
-      birdie.x,
-      birdie.y
-    );
+  // Player 2 hit (press Shift once)
+  if (kb.presses("shift")) {
+
+    let d = dist(player2.x, player2.y - 40, birdie.x, birdie.y);
+
     if (d < 90) {
       birdie.vel.x = -birdieVelocity;
       birdie.vel.y = -birdieVelocity;
@@ -215,16 +250,6 @@ function drawRacket(player, flipped) {
 
   stroke(120, 70, 20);
   strokeWeight(8);
- 
-  // line(player.x, player.y, rx, ry);
-  // stroke(0);
-  // strokeWeight(5);
-  // ellipse(rx, ry, 50, 70);
-
-  // racket = new Sprite(player.x, player.y, rx, ry);
-  // racket.image = racketIMG;
-  // racket.image.scale = 0.2; 
-  
 }
 
 function drawRackets() {
@@ -261,11 +286,22 @@ function drawUI() {
   textSize(40);
   textAlign(CENTER);
   text(p1Score + " : " + p2Score, width / 2, 70);
+  text("player ONE", 500, 200);
+  text("player TWO", width - 500, 200);
 
   if (!gameStarted) {
     textSize(28);
-    text("Press B to Start Rally", width / 2, 120);
+    text("Press B to Start Rally", width / 2, 170);
   }
+
+  if (winner !== "") {
+  fill(0);
+  textSize(100);
+  text(winner, width / 2 + 20, height / 2);
+
+  textSize(50);
+  text("Match Over", width / 2 - 15, height / 2 + 60);
+}
 }
 
 function keyPressed() {
