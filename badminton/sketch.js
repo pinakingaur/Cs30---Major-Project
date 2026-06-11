@@ -41,7 +41,6 @@ function setup() {
 function draw() {
   background(35, 140, 80);
 
-  drawRackets();
   drawCourt();
   movement();
   checkForWinner();
@@ -235,26 +234,6 @@ function drawAudience() {
     fill(fan.c);
     circle(fan.x, fan.y + frameCount % 1, 22);
   }
-}
-
-function drawRacket(player, flipped) {
-  let rx;
-  let ry = player.y - 50;
-
-  if (flipped) {
-    rx = player.x - 45;
-  }
-  else {
-    rx = player.x + 45;
-  }
-
-  stroke(120, 70, 20);
-  strokeWeight(8);
-}
-
-function drawRackets() {
-  drawRacket(player1, false);
-  drawRacket(player2, true);
 }
 
 function resetBirdie() {
