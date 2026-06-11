@@ -1,4 +1,4 @@
-// 8 Ball Pool
+// Matter.js 8 Ball Pool
 
 let poolImg;
 let backgroundIMG;
@@ -11,6 +11,7 @@ let debugMode = false;
 let dragStart;
 
 let hittingEffects;
+let ballInHole;
 
 const ballRadius = 12;
 const cueBallOrigin = 1300;
@@ -152,22 +153,26 @@ function preload() {
   poolImg = loadImage("table.jpg");
   backgroundIMG = loadImage("background.png");
 
-  soundFormats('mp3', 'ogg');
-  // hittingEffects = loadSound('/assets/doorbell');
+  soundFormats("mp3", "wav");
+  hittingEffects = loadSound("ball_hitting.wav");
+  ballInHole = loadSound("ball_in_hole.mp3");
 }
 
 function keyPressed() {
   if (key === "d") {
     debugMode =! debugMode;
-    // hittingEffects.play();
   }
 }
 
 function mousePressed() {
-  if (!cueBall) return;
+  if (!cueBall) {
+    return;
+  }
 
   // Don't allow shooting while cue ball is moving
-  if (!cueBallStopped()) return;
+  if (!cueBallStopped()){
+    return;
+  }
 
   let nearCueBall = dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
   
@@ -177,7 +182,9 @@ function mousePressed() {
 }
 
 function mouseReleased() {
-  if (!dragStart) return;
+  if (!dragStart) {
+    return;
+  } 
   let force = p5.Vector.sub(dragStart, createVector(mouseX, mouseY));
   force.mult(0.1);
   Matter.Body.setVelocity(cueBall.body, force);
@@ -234,6 +241,20 @@ function setup() {
 
   imageMode(CENTER);
   Matter.Runner.run(matter);
+
+  // Play hit sound on ball collisions
+  Matter.Events.on(matter, 'collisionStart', function(event) {
+    for (let pair of event.pairs) {
+      let ballA = balls.find(b => b.body === pair.bodyA);
+      let ballB = balls.find(b => b.body === pair.bodyB);
+      if (ballA || ballB) {
+        let speed = Matter.Vector.magnitude(Matter.Vector.sub(pair.bodyA.velocity, pair.bodyB.velocity));
+        if (speed > 0.5) {
+          hittingEffects.play();
+        }
+      }
+    }
+  });
 }
 
 function draw() {
@@ -307,6 +328,7 @@ const table = {
             resetCueBall();
           } 
           else {
+            ballInHole.play();
             Matter.World.remove(matter.world, ball.body);
             balls.splice(i, 1);
           }

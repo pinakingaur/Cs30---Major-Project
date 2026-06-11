@@ -1,9 +1,4 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Othello
 
 const WHITE_TILE = 0;
 const BLACK_TILE = 1;

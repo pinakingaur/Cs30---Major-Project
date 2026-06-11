@@ -1,13 +1,8 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// badminton Menu
 
 let backgroundIMG;
 
-function prelaod() {
+function preload() {
   backgroundIMG = loadImage("background.png");
 }
 
