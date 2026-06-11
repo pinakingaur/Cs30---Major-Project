@@ -1,9 +1,4 @@
 // 8 Ball Pool
-// Pinakin Gaur
-// April 21, 2026
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
 
 let poolImg;
 let backgroundIMG;
@@ -51,7 +46,12 @@ class Ball {
       density: 0.01
     });
     Matter.World.add(matter.world, this.body);
+
+    // Rotation state: two independent axes
+    this.rollAngle = 0; 
+    this.spinAngle = 0; 
   }
+  
   // ball positioning
   x() {
     return this.body.position.x;
@@ -75,68 +75,75 @@ class Ball {
     return new p5.Vector(this.body.velocity.x, this.body.velocity.y);
   }
 
+  updateRotation() {
+    let vel = this.velocity();
+    let speed = vel.mag();
+
+    if (speed >= 0.05) {
+    this.spinAngle += speed / ballRadius;
+    }
+  }
+
   // displays the ball
   display() {
+    this.updateRotation();
+
     push();
     translate(this.x(), this.y());
+    rotate(this.spinAngle);
     noStroke();
 
-  let number = "";
+    let number = "";
 
-  // Cue ball
-  if (this.name === "cue") {
-    fill("white");
-    circle(0, 0, ballRadius * 2);
-  }
-
-  // 8-ball
-  else if (this.name === "8") {
-    fill("black");
-    circle(0, 0, ballRadius * 2);
-    number = "8";
-  }
-
-  // Solids
-  else if (this.name.startsWith("solid-")) {
-    fill(this.color);
-    circle(0, 0, ballRadius * 2);
-
-    number = this.name.split("-")[1];
-  }
-
-  // Stripes
-  else if (this.name.startsWith("stripe-")) {
-
-    fill("white");
-    circle(0, 0, ballRadius * 2);
-
-    fill(this.color);
-    rectMode(CENTER);
-    rect(0, 0, ballRadius * 2, ballRadius * 0.8, ballRadius * 0.3);
-
-    number = this.name.split("-")[1];
-  }
-
-  // Number label
-  if (number !== "") {
-
-    fill("white");
-    circle(0, 0, ballRadius * 0.9);
-
-    fill("black");
-
-    if (number.length === 2) {
-      textSize(8);
-    }
-    else {
-      textSize(10);
+    // Cue ball
+    if (this.name === "cue") {
+      fill("white");
+      circle(0, 0, ballRadius * 2);
     }
 
-    text(number, 0, 0);
-  }
+    // 8-ball
+    else if (this.name === "8") {
+      fill("black");
+      circle(0, 0, ballRadius * 2);
+      number = "8";
+    }
 
-  pop();
-}
+    // Solids
+    else if (this.name.startsWith("solid-")) {
+      fill(this.color);
+      circle(0, 0, ballRadius * 2);
+      number = this.name.split("-")[1];
+    }
+
+    // Stripes
+    else if (this.name.startsWith("stripe-")) {
+      fill("white");
+      circle(0, 0, ballRadius * 2);
+
+      fill(this.color);
+      rectMode(CENTER);
+      rect(0, 0, ballRadius * 2, ballRadius * 0.8, ballRadius * 0.3);
+
+      number = this.name.split("-")[1];
+    }
+
+    // Number label — offset from center so rotation is visually apparent
+    if (number !== "") {
+      const labelOffset = ballRadius * 0.35;
+      fill("white");
+      circle(labelOffset, 0, ballRadius * 0.9);
+
+      fill("black");
+
+      if (number.length === 2) {
+        textSize(8);
+      } else {
+        textSize(10);
+      }
+      text(number, labelOffset, 0);
+    }
+    pop();
+  }
 }
 
 
@@ -248,7 +255,7 @@ function draw() {
   // Draw the cue
   if (dragStart && cueBallStopped()) {
     drawCueLine();
-}
+  }
   drawDebug();
 }
 
