@@ -80,7 +80,7 @@ class Ball {
     let speed = vel.mag();
 
     if (speed >= 0.05) {
-    this.spinAngle += speed / ballRadius;
+      this.spinAngle += speed / ballRadius;
     }
   }
 
@@ -137,7 +137,8 @@ class Ball {
 
       if (number.length === 2) {
         textSize(8);
-      } else {
+      } 
+      else {
         textSize(10);
       }
       text(number, labelOffset, 0);

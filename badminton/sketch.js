@@ -92,14 +92,14 @@ function movement() {
 
 function checkForWinner() {
   if (p1Score >= 11 && p1Score - p2Score >= 2 && winner === "") {
-  winner = "Player 1 Wins!";
-  noLoop();
-}
+    winner = "Player 1 Wins!";
+    noLoop();
+  }
 
-if (p2Score >= 11 && p2Score - p1Score >= 2 && winner === "") {
-  winner = "Player 2 Wins!";
-  noLoop();
-}
+  if (p2Score >= 11 && p2Score - p1Score >= 2 && winner === "") {
+    winner = "Player 2 Wins!";
+    noLoop();
+  }
 
   // Player 1 fell off map
   if (player1.y > height + 200 && winner === "") {
@@ -154,7 +154,7 @@ function starting_scene() {
   net.color = color(0);
 
   player1 = new Sprite(BASE * 6, BASE * 4.5, BASE / 2, BASE);
-  player2 = new Sprite(width - (BASE * 6), BASE * 4.5, BASE / 2, BASE);
+  player2 = new Sprite(width - BASE * 6, BASE * 4.5, BASE / 2, BASE);
 
   player1.image = racketIMG;
   player2.image = racketIMG;
@@ -295,13 +295,13 @@ function drawUI() {
   }
 
   if (winner !== "") {
-  fill(0);
-  textSize(100);
-  text(winner, width / 2 + 20, height / 2);
+    fill(0);
+    textSize(100);
+    text(winner, width / 2 + 20, height / 2);
 
-  textSize(50);
-  text("Match Over", width / 2 - 15, height / 2 + 60);
-}
+    textSize(50);
+    text("Match Over", width / 2 - 15, height / 2 + 60);
+  }
 }
 
 function keyPressed() {
