@@ -29,6 +29,9 @@ const LINEY2 = BASE * 5;
 function preload() {
   birdieIMG = loadImage("birdie.png");
   racketIMG = loadImage("racket.png");
+
+  soundFormats = ("mp3", "ogg");
+  audienceBG = loadSound("audience_background_music.mp3")
 }
 
 function setup() {
@@ -224,6 +227,7 @@ function createAudience() {
       )
     });
   }
+  audienceBG.loop();
 }
 
 function drawAudience() {
