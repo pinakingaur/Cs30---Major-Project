@@ -26,12 +26,13 @@ const BASE = 100;
 const LINEY1 = BASE + 80;
 const LINEY2 = BASE * 5;
 
+// loads the images and background music
 function preload() {
   birdieIMG = loadImage("birdie.png");
   racketIMG = loadImage("racket.png");
 
   soundFormats = ("mp3", "ogg");
-  audienceBG = loadSound("audience_background_music.mp3")
+  audienceBG = loadSound("audience_background_music.mp3");
 }
 
 function setup() {
@@ -39,6 +40,7 @@ function setup() {
 
   starting_scene();
   createAudience();
+  audienceBG.loop();
 }
 
 function draw() {
@@ -47,7 +49,6 @@ function draw() {
   drawCourt();
   movement();
   checkForWinner();
-  drawBirdieGraphic();
   hitBirdie();
   drawAudience();
   resetBirdie();
@@ -93,11 +94,13 @@ function movement() {
 }
 
 function checkForWinner() {
+  // player 1 winning
   if (p1Score >= 11 && p1Score - p2Score >= 2 && winner === "") {
     winner = "Player 1 Wins!";
     noLoop();
   }
 
+  // player 2 winning
   if (p2Score >= 11 && p2Score - p1Score >= 2 && winner === "") {
     winner = "Player 2 Wins!";
     noLoop();
@@ -151,10 +154,11 @@ function starting_scene() {
   floor.physics = "static";
   floor.color = color(0);
 
-  //creates net, players and birdie
+  //  creates the net
   net = new Sprite(width/2, 420, 10, 220, "static");
   net.color = color(0);
 
+  //  creates the players
   player1 = new Sprite(BASE * 6, BASE * 4.5, BASE / 2, BASE);
   player2 = new Sprite(width - BASE * 6, BASE * 4.5, BASE / 2, BASE);
 
@@ -164,31 +168,13 @@ function starting_scene() {
   player1.image.scale = 0.5;
   player2.image.scale = 0.5;
 
+  // creates the birdie
   birdie = new Sprite(width/2, BASE * 2, 18);
   birdie.image = birdieIMG;
   birdie.image.scale = 0.1;
-
   birdie.visible = false;
   birdie.vel.x = 0;
   birdie.vel.y = 0;
-}
-
-function drawBirdieGraphic() {
-  push();
-  translate(birdie.x, birdie.y);
-  rotate(frameCount * 0.05);
-  fill(255);
-  pop();
-
-  // slowly bounces and stops the birdie on the right side of the net
-  if (birdie.colliding(floor)) {
-    if (birdie.vel.x > 1) {
-      birdie.vel.x--;
-    }
-    else {
-      birdie.vel.x = 0;
-    }
-  }  
 }
 
 function hitBirdie() {
@@ -227,13 +213,12 @@ function createAudience() {
       )
     });
   }
-  audienceBG.loop();
 }
 
 function drawAudience() {
   noStroke();
   fill(50);
-  rect(0, 0, width, 170);
+  rect(0, 0, width, 170);   // makes the grey box for audience
   for (let fan of crowd) {  // draws the fans
     fill(fan.c);
     circle(fan.x, fan.y + frameCount % 1, 22);
@@ -265,6 +250,7 @@ function resetBirdie() {
 }
 
 function drawUI() {
+  // Displays the player names and score
   fill(255);
   textSize(40);
   textAlign(CENTER);
@@ -272,11 +258,13 @@ function drawUI() {
   text("player ONE", 500, 200);
   text("player TWO", width - 500, 200);
 
+  // Displays B to Start Rally on top
   if (!gameStarted) {
     textSize(28);
     text("Press B to Start Rally", width / 2, 170);
   }
 
+  // Displays the match winner
   if (winner !== "") {
     fill(0);
     textSize(100);
@@ -288,6 +276,7 @@ function drawUI() {
 }
 
 function keyPressed() {
+  // Press B to reset the rally after a point
   if ((key === "b" || key === "B") && !gameStarted) {
     gameStarted = true;
 

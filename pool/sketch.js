@@ -1,4 +1,6 @@
-// Matter.js 8 Ball Pool
+// 8 Ball Pool
+
+// Declaring Variables
 
 let poolImg;
 let backgroundIMG;
@@ -19,7 +21,7 @@ const pocketToBallRatio = 4;
 const rim = 40; 
 
 class HitBox {
-  // makes the rectangles
+  // makes the rectangles hitbox you see when you press D
   constructor(x, y, w, h) {
     this.x = x;
     this.y = y;
@@ -35,6 +37,7 @@ class HitBox {
   }
 }
 
+// Made a ball class
 class Ball {
   constructor(x, y, name, color) {
     this.name = name;
@@ -161,6 +164,7 @@ function preload() {
 function keyPressed() {
   if (key === "d") {
     debugMode =! debugMode;
+    // hittingEffects.play();
   }
 }
 
@@ -170,9 +174,9 @@ function mousePressed() {
   }
 
   // Don't allow shooting while cue ball is moving
-  if (!cueBallStopped()){
+  if (!cueBallStopped()) {
     return;
-  }
+  } 
 
   let nearCueBall = dist(mouseX, mouseY, cueBall.body.position.x, cueBall.body.position.y) <= ballRadius * 2;
   
@@ -182,13 +186,27 @@ function mousePressed() {
 }
 
 function mouseReleased() {
-  if (!dragStart) {
+  if (!dragStart){
     return;
-  } 
+  }
   let force = p5.Vector.sub(dragStart, createVector(mouseX, mouseY));
   force.mult(0.1);
   Matter.Body.setVelocity(cueBall.body, force);
   dragStart = null;
+
+  // Play hit sound on ball collisions
+  Matter.Events.on(matter, 'collisionStart', function(event) {
+    for (let pair of event.pairs) {
+      let ballA = balls.find(b => b.body === pair.bodyA);
+      let ballB = balls.find(b => b.body === pair.bodyB);
+      if (ballA || ballB) {
+        let speed = Matter.Vector.magnitude(Matter.Vector.sub(pair.bodyA.velocity, pair.bodyB.velocity));
+        if (speed > 0.5) {
+          hittingEffects.play();
+        }
+      }
+    }
+  });
 }
 
 function drawCueLine() {
@@ -241,20 +259,6 @@ function setup() {
 
   imageMode(CENTER);
   Matter.Runner.run(matter);
-
-  // Play hit sound on ball collisions
-  Matter.Events.on(matter, 'collisionStart', function(event) {
-    for (let pair of event.pairs) {
-      let ballA = balls.find(b => b.body === pair.bodyA);
-      let ballB = balls.find(b => b.body === pair.bodyB);
-      if (ballA || ballB) {
-        let speed = Matter.Vector.magnitude(Matter.Vector.sub(pair.bodyA.velocity, pair.bodyB.velocity));
-        if (speed > 0.5) {
-          hittingEffects.play();
-        }
-      }
-    }
-  });
 }
 
 function draw() {
@@ -318,7 +322,7 @@ const table = {
       createVector(1485, 745), //bottom - right pocket
     ];
   },
-  checkPockets: function () {
+  checkPockets: function () {   // checks the pockets
     for (let i = balls.length - 1; i >= 0; i--) {
       let ball = balls[i];
       for (let pocket of table.pockets) {
@@ -328,9 +332,9 @@ const table = {
             resetCueBall();
           } 
           else {
-            ballInHole.play();
             Matter.World.remove(matter.world, ball.body);
             balls.splice(i, 1);
+            ballInHole.play();
           }
         }
       }
@@ -348,6 +352,7 @@ function rackBalls() {
   const spacing = 2 * ballRadius + 3;
   const xOffset = sqrt(3) * ballRadius;
 
+  // declaring all the ball colors
   const colors = [
     "yellow",
     "blue",
@@ -396,7 +401,9 @@ function rackBalls() {
 
 function drawDebug() {
   // makes a visible table border
-  if (!debugMode) return;
+  if (!debugMode) {
+    return;
+  }
   push();
   stroke("blue");
   strokeWeight(3);
@@ -419,6 +426,7 @@ function drawDebug() {
   pop();
 }
 
+// Only hit the cue ball when stopped
 function cueBallStopped() {
   return cueBall.velocity().mag() < 0.1;
 }
